@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<title>Signing in · MCP Socials</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main><div class="wrap">
+  <h1>Finishing sign-in…</h1>
+  <p class="lede" id="msg">Handing the sign-in back to MCP Socials on your computer.</p>
+</div></main>
+<script>
+  // Some providers (Meta) only accept HTTPS redirect URIs. This page relays the
+  // OAuth response to the MCP Socials listener on this computer. It only ever
+  // forwards to localhost; the port comes from the state prefix ("8787-<random>").
+  (function () {
+    var params = new URLSearchParams(location.search);
+    var state = params.get("state") || "";
+    var m = /^(\d{2,5})-/.exec(state);
+    var port = m ? Number(m[1]) : 8787;
+    if (!(port >= 1024 && port <= 65535)) {
+      document.getElementById("msg").textContent = "Invalid sign-in request.";
+      return;
+    }
+    location.replace("http://localhost:" + port + "/callback" + location.search);
+  })();
+</script>
+</body>
+</html>

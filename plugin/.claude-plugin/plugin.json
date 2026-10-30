@@ -1,0 +1,12 @@
+{
+  "name": "mcp-socials",
+  "version": "0.1.0",
+  "description": "Publish to your own Facebook Page, Instagram professional account, YouTube channel and X from Claude, through a self-hosted MCP server using each platform's official API.",
+  "author": {
+    "name": "studioarjuna",
+    "email": "imageapiai@gmail.com"
+  },
+  "homepage": "https://mcpsocials.stream/",
+  "license": "MIT",
+  "keywords": ["social media", "facebook", "instagram", "youtube", "x", "publishing", "mcp"]
+}

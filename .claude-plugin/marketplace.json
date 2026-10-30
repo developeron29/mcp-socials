@@ -1,0 +1,18 @@
+{
+  "name": "mcp-socials",
+  "owner": {
+    "name": "studioarjuna",
+    "email": "imageapiai@gmail.com"
+  },
+  "metadata": {
+    "description": "MCP Socials: publish to Facebook, Instagram, YouTube and X from Claude."
+  },
+  "plugins": [
+    {
+      "name": "mcp-socials",
+      "source": "./plugin",
+      "description": "Publish to your own Facebook Page, Instagram, YouTube channel and X through a self-hosted MCP server.",
+      "version": "0.1.0"
+    }
+  ]
+}

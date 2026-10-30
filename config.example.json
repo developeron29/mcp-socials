@@ -1,0 +1,37 @@
+{
+  "xRoute": "auto",
+  "buffer": {
+    "apiKey": "YOUR_BUFFER_API_KEY",
+    "xChannelId": "OPTIONAL_BUFFER_X_CHANNEL_ID"
+  },
+  "x": {
+    "clientId": "YOUR_X_OAUTH2_CLIENT_ID",
+    "clientSecret": "ONLY_IF_YOUR_X_APP_IS_CONFIDENTIAL"
+  },
+  "meta": {
+    "appId": "YOUR_META_APP_ID",
+    "appSecret": "YOUR_META_APP_SECRET",
+    "pageId": "OPTIONAL_PAGE_ID_IF_YOU_MANAGE_SEVERAL",
+    "loginConfigId": "FACEBOOK_LOGIN_FOR_BUSINESS_CONFIGURATION_ID",
+    "redirectUri": "https://mcpsocials.stream/oauth/callback"
+  },
+  "instagram": {
+    "appId": "INSTAGRAM_APP_ID_FROM_INSTAGRAM_API_USE_CASE",
+    "appSecret": "INSTAGRAM_APP_SECRET",
+    "redirectUri": "https://mcpsocials.stream/oauth/callback"
+  },
+  "youtube": {
+    "clientId": "YOUR_GOOGLE_OAUTH_CLIENT_ID.apps.googleusercontent.com",
+    "clientSecret": "YOUR_GOOGLE_OAUTH_CLIENT_SECRET"
+  },
+  "media": {
+    "s3": {
+      "bucket": "social-media-uploads",
+      "region": "auto",
+      "endpoint": "https://<ACCOUNT_ID>.r2.cloudflarestorage.com",
+      "accessKeyId": "R2_ACCESS_KEY_ID",
+      "secretAccessKey": "R2_SECRET_ACCESS_KEY",
+      "publicBaseUrl": "https://pub-xxxxxxxx.r2.dev"
+    }
+  }
+}
