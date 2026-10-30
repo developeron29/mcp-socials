@@ -1,4 +1,6 @@
-# social-publish-mcp
+# MCP Socials
+
+**Repo:** https://github.com/developeron29/mcp-socials · **Site:** https://mcpsocials.stream
 
 A self-hosted [MCP](https://modelcontextprotocol.io) server that lets Claude (or any MCP client) publish to **X/Twitter, Facebook Pages, Instagram and YouTube** through each platform's official API, using **your own developer apps**.
 
@@ -22,36 +24,53 @@ Every posting tool accepts `dry_run: true`, which validates the post and shows w
 
 ## Install
 
-```bash
-git clone <this repo> && cd social-publish-mcp
-npm install && npm run build
-```
+### Claude Code plugin (recommended)
 
-Add it to Claude Code:
+The `plugin/` folder is a Claude Code plugin with two parts:
 
-```bash
-claude mcp add social -- node /absolute/path/to/social-publish-mcp/dist/index.js
-```
+- the MCP server bundled into one file (`plugin/server/index.mjs`, so no `npm install` is needed)
+- a `post-to-socials` skill, which has Claude check accounts, dry-run and confirm with you before anything is posted
 
-Or Claude Desktop (`claude_desktop_config.json`):
-
-```json
-{ "mcpServers": { "social": { "command": "node", "args": ["/absolute/path/to/social-publish-mcp/dist/index.js"] } } }
-```
-
-## Install as a Claude Code plugin
-
-The `plugin/` folder is a Claude Code plugin: the MCP server bundled into one file (`plugin/server/index.mjs`, no `node_modules` needed) plus a `post-to-socials` skill that has Claude check accounts, dry-run and confirm before anything is posted.
+Install it from GitHub:
 
 ```bash
-claude plugin marketplace add /path/to/social-publish-mcp      # or <owner>/<repo> once it's on GitHub
+claude plugin marketplace add developeron29/mcp-socials
 claude plugin install mcp-socials@mcp-socials
 ```
 
-It installs at user level, so every Claude Code session gets the tools (`mcp__plugin_mcp-socials_socials__*`). After changing `src/`, run `npm run build:plugin` to rebuild the bundle, then `claude plugin update mcp-socials@mcp-socials`. Sign-ins still use the same config and tokens in `~/.config/social-publish-mcp/`:
+Or, inside Claude Code:
+
+```
+/plugin marketplace add developeron29/mcp-socials
+/plugin install mcp-socials@mcp-socials
+```
+
+It installs at user level, so every Claude Code session gets the tools (`mcp__plugin_mcp-socials_socials__*`). Later versions arrive with `claude plugin update mcp-socials@mcp-socials`.
+
+Then [configure](#configure) your apps and sign in once per platform. The sign-in commands run from a clone of this repo:
 
 ```bash
-node plugin/server/index.mjs auth youtube   # or meta, instagram, x
+git clone https://github.com/developeron29/mcp-socials.git && cd mcp-socials
+node plugin/server/index.mjs auth youtube   # or: meta, instagram, x
+node plugin/server/index.mjs accounts       # check what's connected
+```
+
+Config and tokens live in `~/.config/social-publish-mcp/`, so the plugin and the CLI share them.
+
+### Standalone MCP server
+
+To run it without the plugin, for example in Claude Desktop or another MCP client:
+
+```bash
+git clone https://github.com/developeron29/mcp-socials.git && cd mcp-socials
+npm install && npm run build
+claude mcp add social -- node "$PWD/dist/index.js"
+```
+
+Claude Desktop (`claude_desktop_config.json`):
+
+```json
+{ "mcpServers": { "social": { "command": "node", "args": ["/absolute/path/to/mcp-socials/plugin/server/index.mjs"] } } }
 ```
 
 ## Configure
@@ -124,10 +143,14 @@ Buffer fetches media from public URLs, so local images/videos need `media.s3` co
 ## Development
 
 ```bash
-npm run build
-npm test            # unit tests + an MCP client round-trip with dry runs
-npm run inspect     # MCP Inspector UI
+npm run build          # compile src/ to dist/
+npm run build:plugin   # rebuild the bundled plugin server (plugin/server/index.mjs) and commit it
+npm test               # unit tests + an MCP client round-trip with dry runs
+npm run inspect        # MCP Inspector UI
+node scripts/call-tool.mjs list_accounts '{}'   # call any tool the way Claude does
 ```
+
+To pick up a rebuilt plugin locally, run `claude plugin update mcp-socials@mcp-socials`.
 
 Each platform is one file in `src/platforms/` exporting `status`, `validate` and `publish`. To add a platform (LinkedIn, Threads, TikTok, Bluesky…), add a file there and register a tool in `src/index.ts`.
 
